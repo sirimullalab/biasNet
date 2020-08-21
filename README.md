@@ -24,8 +24,8 @@ Biasnet runs in two ways: Docker and manually running from source. With Docker, 
 To install Docker, just follow the [docker documentation](https://docs.docker.com/install/).
 #### 1. Run Docker Images
 The latest biasNet image is available on the Docker Hub.
-- `docker pull sirimullalab/biasNet:latest`
-- `docker run --rm sirimullalab/biasNet:latest --smiles <compound_smiles>`
+- `docker pull sirimullalab/biasnet:latest`
+- `docker run --rm sirimullalab/biasnet:latest --smiles <compound_smiles>`
 #### 2. Build your own images
 1. `git clone this repo`
 2. `cd /path/to/this/repo`
