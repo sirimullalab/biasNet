@@ -1,0 +1,20 @@
+{
+    "biasnet": {
+        "xgb-b_g_labels_clean_train_avalon_fp": {
+            "roc_auc": 0.8239215686274509,
+            "accuracy": 0.8421052631578947,
+            "f1_score": 0.7499999999999999,
+            "Recall": 0.72,
+            "Precison": 0.782608695652174,
+            "SE": 0.72,
+            "SP": 0.9019607843137255,
+            "PPV": 0.782608695652174,
+            "cohen_kappa": 0.6349079263410728,
+            "mcc": 0.636086593313052,
+            "data_info": {
+                "train_count": 300,
+                "test_count": 76
+            }
+        }
+    }
+}

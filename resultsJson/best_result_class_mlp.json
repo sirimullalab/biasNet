@@ -1,0 +1,1 @@
+{"biasnet": {"mlp-b_g_labels_clean_train_lecfp4_fp": {"roc_auc": 0.8407843137254901, "accuracy": 0.8421052631578947, "f1_score": 0.7692307692307692, "Recall": 0.8, "Precison": 0.7407407407407407, "SE": 0.8, "SP": 0.8627450980392157, "PPV": 0.7407407407407407, "cohen_kappa": 0.649500384319754, "mcc": 0.6506114385895281, "data_info": {"train_count": 300, "test_count": 76}}}}
