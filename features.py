@@ -1,3 +1,9 @@
+# ********************************* #
+# Govinda KC                        #
+# UTEP, Computational Science       #
+# Last modified: 8/19/2020          #
+# ********************************* #
+
 import sys,os,glob
 from pathlib import Path
 import numpy as np
@@ -19,8 +25,7 @@ class FeaturesGeneration:
         self.longbits = 16384
         self.fingerprints = []
 
-    def get_features(self, smiles):
-
+    def get_fingerprints(self, smiles): # features--> fingerprints
         self.fpdict['lecfp4'] = lambda m: AllChem.GetMorganFingerprintAsBitVect(m, 2, nBits=self.longbits)
  #       self.fpdict['avalon'] = lambda m: fpAvalon.GetAvalonFP(m, self.nbits)
         

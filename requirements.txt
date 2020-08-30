@@ -5,3 +5,9 @@ pandas==0.25.1
 joblib==0.13.2
 xgboost==0.90
 tqdm==4.36.1
+flask==1.1.1
+argparse==1.1
+cairosvg==2.4.2
+requests==2.22.0
+pubchempy==1.0.4
+func_timeout==4.3.5
