@@ -21,4 +21,3 @@ COPY static ./static
 COPY app.py features.py models.txt ./
 
 ENTRYPOINT ["python3", "app.py"]
-EXPOSE 5000
