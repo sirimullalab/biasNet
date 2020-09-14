@@ -30,7 +30,7 @@ The latest biasNet image is available on the Docker Hub.
 #### 2. Build your own images
 1. `git clone this repo`
 2. `cd /path/to/this/repo`
-3. `docker build -t biasnet .`
+3. `docker build --build-arg USER=$USER --build-arg UID=$UID --build-arg GID=$GID -t biasnet .`
 4. `docker run --rm biasnet:latest --smiles <compound_smiles>`
 
 ### Manual Start
@@ -40,7 +40,7 @@ The latest biasNet image is available on the Docker Hub.
 4. `conda env create -f environment.yml`
 5. `conda activate biasnet` (or `source activate biasnet` for older versions of conda)`
 6. Example:
--   `python3 app.py --smiles "ClC1=CC=C(C=C1)C2=NOC3=C2CCNCC3"`
+-   `python3 run_biasnet.py --smiles "ClC1=CC=C(C=C1)C2=NOC3=C2CCNCC3"`
 
 ### Contributors
 [Govinda KC](https://github.com/Govindakc), [Jason Sanchez](https://github.com/JSanchez61), [Suman Sirimulla](https://expertise.utep.edu/node/36435)<br/><br/>
