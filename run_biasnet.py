@@ -45,7 +45,7 @@ class biasNet:
         
         fg = FeaturesGeneration()
 
-        features = fg.get_features(smiles)
+        features = fg.get_fingerprints(smiles)
         
         final_results = {}
         model_result = {}
