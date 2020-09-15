@@ -13,16 +13,14 @@ RUN apt-get update --allow-releaseinfo-change && apt-get install -y libpango1.0-
 RUN apt update && apt upgrade -y
 RUN apt install -y python3-pip
 
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
-
 WORKDIR /app
+
 COPY models ./models
 COPY static ./static
-COPY app.py features.py models.txt run_biasnet.py ./
+COPY requirements.txt app.py features.py models.txt run_biasnet.py ./
+RUN pip3 install -r requirements.txt
 
 ENTRYPOINT ["python3", "run_biasnet.py"]
-
 #---------For web application --------#
 #ENTRYPOINT ["python3", "app.py"]
 #EXPOSE 5000
