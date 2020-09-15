@@ -26,7 +26,8 @@ To install Docker, just follow the [docker documentation](https://docs.docker.co
 #### 1. Run Docker Images
 The latest biasNet image is available on the Docker Hub.
 - `docker pull sirimullalab/biasnet:latest`
-- `docker run --rm sirimullalab/biasnet:latest --smiles <compound_smiles>`
+- `docker run -p 5000:5000 sirimullalab/biasnet:latest`
+- `curl -F smiles='ClC1=CC=C(C=C1)C2=NOC3=C2CCNCC3' localhost:5000/predict OR curl -d 'smiles=ClC1=CC=C(C=C1)C2=NOC3=C2CCNCC3' localhost:5000/predict`
 #### 2. Build your own images
 1. `git clone this repo`
 2. `cd /path/to/this/repo`
