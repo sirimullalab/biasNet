@@ -91,32 +91,52 @@ def predict():
                 models = f.read().splitlines()
                 model_names = [model_path.split('_')[0] for model_path in models]
                 models = [joblib.load(os.path.join('models', model_path)) for model_path in models]
+            
 
             features = get_features(smiles)
 
             model_result = {}
 
             for model_name, model in tqdm(zip(model_names, models)):
-                # First index ->  probability that the data belong to class 0,
-                # Second index ->  probability that the data belong to class 1.
-
                 label_zero = model.predict_proba(features)[0][0].round(3)
                 label_one = model.predict_proba(features)[0][1].round(3)
-                
+
                 if label_one >= 0.5:
                     model_result['Prediction'] = 'B-Arrestin'
-                    model_result['GPCR-Prediction'] = 'Non-GPCR'
                     model_result['Confidence'] = label_one
+                    model_result['GPCR'] = gpcr_results(features)
                 else:
                     model_result['Prediction'] = 'G-Protein'
-                    model_result['GPCR-Prediction'] = 'GPCR'
                     model_result['Confidence'] = label_zero
+                    model_result['GPCR'] = gpcr_results(features)
+
+            final_results[smiles] = model_result
             
             final_results['smiles']=smiles
             final_results['predictions'] = model_result
             final_results['error_flag'] = 'FALSE'
 
             return final_results
+        
+        def gpcr_results(features):
+            with open('gpcr.txt', 'r') as f:
+                models = f.read().splitlines()
+                model_names = [model_path.split('_')[0] for model_path in models]
+                models = [joblib.load(os.path.join('gpcr', model_path)) for model_path in models]
+
+            gpcr_model_result = {}
+
+            for model_name, model in tqdm(zip(model_names, models)):
+                label_zero = model.predict_proba(features)[0][0].round(3)
+                label_one = model.predict_proba(features)[0][1].round(3)
+
+                if label_one >= 0.5:
+                    gpcr_model_result['GPCR_Prediction'] = 'Non-GPCR'
+                    gpcr_model_result['GPCR_Confidence'] = label_one                   
+                else:
+                    gpcr_model_result['GPCR_Prediction'] = 'GPCR'
+                    gpcr_model_result['GPCR_Confidence'] = label_zero                  
+            return gpcr_model_result
 
         try:
 
