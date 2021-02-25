@@ -16,11 +16,12 @@ RUN apt install -y python3-pip
 WORKDIR /app
 
 COPY models ./models
+COPY gpcr ./gpcr
 COPY static ./static
-COPY requirements.txt app.py features.py models.txt run_biasnet.py ./
+COPY requirements.txt app.py features.py models.txt gpcr.txt run_biasnet.py ./
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT ["python3", "run_biasnet.py"]
+#ENTRYPOINT ["python3", "run_biasnet.py"]
 #---------For web application --------#
-#ENTRYPOINT ["python3", "app.py"]
-#EXPOSE 5000
+ENTRYPOINT ["python3", "app.py"]
+EXPOSE 5000

@@ -34,24 +34,24 @@ def predict():
         # request = add_header(request)
         _input = request.form['smiles']
         print("PREDICTING FOR {}".format(_input), file = sys.stderr)
-        
+
         final_results = {}
 
         if _input == '' or _input == None or len(_input) == 0:
             final_results['error'] = {'message': "INPUT ERROR", 'error': "EMPTY INPUT"}
             final_results['error_flag'] = 'TRUE'
             print("ERROR: EMPTY INPUT")
-            
+
             return jsonify(final_results)
 
         smiles = _input
-        
+
         if smiles == None:
             final_results['error'] = {'message': "INPUT ERROR", 'error': "INVALID INPUT"}
             final_results['error_flag'] = 'TRUE'
             print("ERROR: INVALID INPUT")
             return jsonify(final_results)
-        
+
         def smi_to_png(smi, query_smi_path, get_binary=False):
 
             def moltosvg(mol, molSize=(300, 300), kekulize=True):
@@ -81,41 +81,65 @@ def predict():
 
         def get_features(smiles):
             fg = FeaturesGeneration()
-            
+
             features = fg.get_fingerprints(smiles)
             return features
 
         def get_results(smiles):
-            # Load models            
+            # Load models
             with open('models.txt', 'r') as f:
                 models = f.read().splitlines()
                 model_names = [model_path.split('_')[0] for model_path in models]
                 models = [joblib.load(os.path.join('models', model_path)) for model_path in models]
             
+
             features = get_features(smiles)
-            
+
             model_result = {}
-            
+
             for model_name, model in tqdm(zip(model_names, models)):
-                # First index ->  probability that the data belong to class 0,
-                # Second index ->  probability that the data belong to class 1.
-                
                 label_zero = model.predict_proba(features)[0][0].round(3)
                 label_one = model.predict_proba(features)[0][1].round(3)
-                
+
                 if label_one >= 0.5:
-                    model_result['\u03B2-arrestin-bias'] = str(label_one)
+                    model_result['Prediction'] = 'B-Arrestin'
+                    model_result['Confidence'] = label_one
+                    model_result['GPCR'] = gpcr_results(features)
                 else:
-                    model_result['G-protein-bias'] = str(label_zero)
+                    model_result['Prediction'] = 'G-Protein'
+                    model_result['Confidence'] = label_zero
+                    model_result['GPCR'] = gpcr_results(features)
+
+            final_results[smiles] = model_result
             
             final_results['smiles']=smiles
             final_results['predictions'] = model_result
             final_results['error_flag'] = 'FALSE'
-            
+
             return final_results
         
+        def gpcr_results(features):
+            with open('gpcr.txt', 'r') as f:
+                models = f.read().splitlines()
+                model_names = [model_path.split('_')[0] for model_path in models]
+                models = [joblib.load(os.path.join('gpcr', model_path)) for model_path in models]
+
+            gpcr_model_result = {}
+
+            for model_name, model in tqdm(zip(model_names, models)):
+                label_zero = model.predict_proba(features)[0][0].round(3)
+                label_one = model.predict_proba(features)[0][1].round(3)
+
+                if label_one >= 0.5:
+                    gpcr_model_result['GPCR_Prediction'] = 'Non-GPCR'
+                    gpcr_model_result['GPCR_Confidence'] = label_one                   
+                else:
+                    gpcr_model_result['GPCR_Prediction'] = 'GPCR'
+                    gpcr_model_result['GPCR_Confidence'] = label_zero                  
+            return gpcr_model_result
+
         try:
-            
+
             final_results = get_results(smiles)
             binary_image = smi_to_png(smiles, './static/images/', get_binary=True)
             final_results['image']=binary_image
@@ -127,6 +151,6 @@ def predict():
             final_results['error'] = {'message': "SCRIPT ERROR", 'error': str(e)}
             final_results['error_flag'] = 'TRUE'
             return jsonify(final_results)
-        
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
