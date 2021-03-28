@@ -35,6 +35,7 @@ def StdSmiles(smi):
 #############################################################################
 if __name__ == "__main__":
     df = pd.read_csv('data/b_g_labels_clean_test.csv')
+    
 
     smis = df['SMILES'].to_list()
     smis_stds = []
