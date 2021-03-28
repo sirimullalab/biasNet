@@ -18,7 +18,8 @@ WORKDIR /app
 COPY models ./models
 COPY gpcr ./gpcr
 COPY static ./static
-COPY logp.bin logs.bin drug_central_drugs.csv drug_central_drugs-stand.csv lookup_table_smiles.json requirements.txt app.py features.py models.txt gpcr.txt run_biasnet.py ./
+
+COPY logp.bin logs.bin alogps-linux drug_central_drugs.csv drug_central_drugs-stand.csv lookup_table_smiles.json requirements.txt app.py features.py models.txt gpcr.txt run_biasnet.py ./
 RUN pip3 install -r requirements.txt
 
 #ENTRYPOINT ["python3", "run_biasnet.py"]
