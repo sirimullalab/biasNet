@@ -5,13 +5,12 @@ MAINTAINER Govinda KC<gbkc@miners.utep.edu>
 USER ${UID}:${GID}
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update --allow-releaseinfo-change && apt-get install -y libpango1.0-0 \
+    python3-distutils \
+#    python3-pip \
     libcairo2 \
     libpq-dev \
     perl \
     && rm -rf /var/lib/apt/lists/*
-
-RUN apt update && apt upgrade -y
-RUN apt install -y python3-pip
 
 WORKDIR /app
 
