@@ -21,7 +21,7 @@ import pprint
 import joblib,os
 from features import FeaturesGeneration
 from tqdm import tqdm
-
+import traceback
 USE_OCHEM_API = False # If True, ochem API will be used for ALOGPS calculations (instead of ochem Tool)
 
 app = Flask(__name__)
@@ -256,8 +256,9 @@ def predict():
                     synonyms_modified = drug_central_name+' | '+synonyms.split('|')[1]
                 else:
                     synonyms_modified = drug_central_name+' | '+synonyms.split('|')[0]
+            elif drug_central_name =='-':
+                synonyms_modified = '-'+'|'+'-'
             else:
-
                 synonyms_modified = synonyms.split('|')[0].lower()+' | '+ synonyms.split('|')[1].lower()
                 pass
             ## Check if dc has smiles

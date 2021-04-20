@@ -440,7 +440,9 @@ class CheckInput:
             try:
                 drug_name = func_timeout(pubchem_time_limit, get_synonyms, args=(can_smi, 'smiles'))
 
-                if len(drug_name[0]['Synonym']) == 1:
+                if not drug_name:
+                    drug_name = '-'
+                elif len(drug_name[0]['Synonym']) == 1:
                     drug_name = str(drug_name[0]['Synonym'][0])
                 else:
                     drug_name = drug_name[0]['Synonym']
