@@ -1,1 +1,7 @@
-{"ClC1=CC=C(C=C1)C2=NOC3=C2CCNCC3": {"Prediction": "G-Protein", "Confidence": 0.923, "GPCR_Prediction": "GPCR"}}
+{
+    "CC(O)CO": {
+        "Prediction": "G-Protein",
+        "Confidence": 0.619,
+        "GPCR_Prediction": "GPCR"
+    }
+}

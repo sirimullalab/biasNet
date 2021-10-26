@@ -1,17 +1,18 @@
-# ********************************* #
-# Govinda KC                        #
-# UTEP, Computational Science       #
-# Last modified: 8/19/2020          #
-# ********************************* #
+# *******************************************************#
+# Author: Govinda KC - UTEP, Computational Science       #
+# Code developed in Sirimulla Research Group             #
+# (http://sirimullaresearchgroup.com/)                   #
+# Last modified:10/25/2021                               #
+# *******************************************************#
 
-# Usage: python app.py --smiles SMILES ( eg. python app.py --smiles "CC(O)CO" )
+# Usage: python run_biasnet.py --smiles SMILES ( eg. python run_biasnet.py --smiles "CC(O)CO" )
 
 import os, joblib, json,sys,re,time,argparse,logging
-import argparse #
+import argparse 
 from tqdm import tqdm 
 from features import FeaturesGeneration
-from pprint import pprint #
-from rdkit import Chem#
+from pprint import pprint 
+from rdkit import Chem
 import rdkit
 from rdkit.DataStructs.cDataStructs import TanimotoSimilarity
 from collections import OrderedDict
@@ -42,9 +43,11 @@ import pandas as pd
 import rdkit, shutil
 from rdkit.Chem import SmilesMolSupplier, SDMolSupplier, SDWriter, SmilesWriter, MolStandardize, MolToSmiles, MolFromSmiles
 import tempfile
-pubchem_time_limit = 30  # in seconds
 
+
+pubchem_time_limit = 30  # in seconds
 ochem_api_time_limit = 20 # in seconds
+
 
 def Standardize(stdzr, remove_isomerism, molReader, molWriter):
   n_mol=0; 
@@ -114,9 +117,6 @@ def preprocess_smi(smi):
         return None
 
 
-
-
-
 class biasNet:
 
     MODELS_DIR = os.path.join('models')
@@ -162,6 +162,7 @@ class biasNet:
             label_one = model.predict_proba(features)[0][1].round(3)
 
             if label_one >= 0.5:
+
                 model_result['Prediction'] = 'B-Arrestin'
                 model_result['Confidence'] = label_one
                 model_result['GPCR_Prediction'] = 'Non-GPCR'
@@ -171,11 +172,10 @@ class biasNet:
                 model_result['GPCR_Prediction'] = 'GPCR'
 
         final_results[smiles] = model_result
-        
-        pprint(final_results)
+        print('Final results: ', final_results) 
          
         with open('biasnet_results.json', 'w') as json_file:
-            json.dump(final_results, json_file)
+            json.dump(final_results, json_file, indent=4)
         
         print('Result file is saved')
 
